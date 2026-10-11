@@ -291,7 +291,7 @@ const CARS = [
  tq:[[0,250],[1000,280],[2000,330],[3000,400],[4000,440],[5000,430],[5600,410],[6400,370],[7000,330],[7400,260]],
  gearTop:[0,70,113,159,205,268,340],
  order:[1,5,3,6,2,4], banks:[[1,2,3,4,5,6]], fo:'Firing order 1 · 5 · 3 · 6 · 2 · 4 · inline-six, sequential twin turbo',
- snd:{hd:[1.0,1.1], md:[5.5,6.0], W:110, low:[110,3], rasp:1800, lpO:[2600,6000], lpC:[1400,2000], drive:0.9, nz:0.18, intake:0.3, whine:0.005, mix:0.6, tw:0.035, twf:5200, bov:0.5, psi:17},
+ snd:{ord:1.7, hd:[1.0,1.1], md:[5.5,6.0], W:110, low:[110,3], rasp:1800, lpO:[2600,6000], lpC:[1400,2000], drive:0.9, nz:0.18, intake:0.3, whine:0.005, mix:0.6, tw:0.035, twf:5200, bov:0.5, psi:17},
  dash:{kind:'dial', face:'#0a0a0a', bezel:'#18191b', num:'#f4f4f0', needle:'#ff5a1f', red:'#d9271d', hub:'#141414', label:'× 1000 r/min'}},
 {id:'458', name:'Ferrari 458 Italia', sub:'4.5 L flat-plane V8 · 7-speed dual-clutch · 9,000 rpm', body:'super', paint:'#c41a1f', rim:'five', cal:'grey',
  mass:1560, cda:0.67, top:325, crr:0.013, rw:0.345, eta:0.92, Ie:0.2, idle:1000, limit:9000, launch:4800, grip:1.1, box:'dct',
@@ -305,7 +305,7 @@ const CARS = [
  tq:[[0,350],[1000,420],[2000,480],[3000,520],[4000,555],[4600,569],[5500,560],[6500,520],[7000,490],[7400,455],[7800,380]],
  gearTop:[0,74,111,160,205,270,415],
  order:[1,5,4,8,6,3,7,2], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 5 · 4 · 8 · 6 · 3 · 7 · 2 · cross-plane crank',
- snd:{ord:0.75, sub:1.35, hd:[1.2,1.4], md:[6.5,7.4], rM:-0.5, W:110, low:[85,7], rasp:1700, lpO:[2800,7000], lpC:[1300,2000], drive:1.3, nz:0.25, intake:0.35, whine:0.005, mix:0.68},
+ snd:{ord:2.2, sub:1.35, hd:[1.2,1.4], md:[6.5,7.4], rM:-0.5, W:110, low:[85,7], rasp:1700, lpO:[2800,7000], lpC:[1300,2000], drive:1.3, nz:0.25, intake:0.35, whine:0.005, mix:0.68},
  dash:{kind:'dial', face:'#0d0e10', bezel:'#a7adb3', num:'#ececec', needle:'#e33a1f', red:'#e33a1f', hub:'#202226', label:'ENGINE RPM'}},
 {id:'f150', name:'Ford F-150 (1995)', sub:'5.8 L V8 · 4-speed automatic · 4,800 rpm', body:'truck', paint:'#2f4a3a', rim:'steel', cal:null,
  mass:2150, cda:1.45, top:161, vlim:161, crr:0.016, rw:0.366, eta:0.85, Ie:0.45, idle:650, limit:4800, launch:2200, grip:0.75, box:'auto', stall:2300,
@@ -313,21 +313,21 @@ const CARS = [
  gearTop:[0,69,121,187,263],
  order:[1,3,7,2,6,5,4,8], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 3 · 7 · 2 · 6 · 5 · 4 · 8 · cross-plane crank',
  exh:['Stock','Borla'], exhLv:[0,2],
- snd:{ord:0.35, sub:1.4, hd:[1.4,1.6], md:[8,9], rM:-0.5, W:120, low:[72,7], rasp:1400, lpO:[1800,6000], lpC:[1000,1600], drive:0.9, nz:0.3, intake:0.25, whine:0.003, mix:0.5, gain:1.2},
+ snd:{ord:1.9, sub:1.15, hd:[1.4,1.6], md:[8,9], rM:-0.5, W:120, low:[72,7], rasp:1400, lpO:[1800,6000], lpC:[1000,1600], drive:0.9, nz:0.3, intake:0.25, whine:0.003, mix:0.5, gain:1.2},
  dash:{kind:'sweep', face:'#0f1011', bezel:'#2b2c2e', num:'#f1f1f1', needle:'#ff7a1a', red:'#e2261a', label:'RPM × 1000'}},
 {id:'s2000', name:'Honda S2000', sub:'2.0 L four-cylinder · 6-speed manual · 8,900 rpm', body:'roadster', paint:'#b9bcbf', rim:'five', cal:'red',
  mass:1300, cda:0.705, top:241, crr:0.013, rw:0.315, eta:0.9, Ie:0.12, idle:900, limit:9000, launch:5500, grip:0.95, box:'manual',
  tq:[[0,135],[1000,155],[2000,178],[3000,195],[4000,200],[5000,205],[5800,200],[6000,226],[7000,232],[7500,235],[8300,228],[9000,208],[9400,168]],
  gearTop:[0,82,126,174,222,266,318],
  order:[1,3,4,2], banks:[[1,2,3,4]], fo:'Firing order 1 · 3 · 4 · 2 · VTEC at 5,800 rpm',
- snd:{ord:1.1, hd:[0.55,0.6], md:[3.0,3.3], W:80, low:[140,2], rasp:3000, lpO:[4500,10000], lpC:[2000,3000], drive:1.2, nz:0.3, intake:0.5, whine:0.004, mix:0.55, vtec:5800, gain:1.15},
+ snd:{ord:1.4, hd:[0.55,0.6], md:[3.0,3.3], W:80, low:[140,2], rasp:3000, lpO:[4500,10000], lpC:[2000,3000], drive:1.2, nz:0.3, intake:0.5, whine:0.004, mix:0.55, vtec:5800, gain:1.15},
  dash:{kind:'bar', color:'#ffae1a', red:'#ff3b1a', face:'#060606'}},
 {id:'m3', name:'BMW M3 (E46)', sub:'3.2 L straight-six · 6-speed manual · 8,000 rpm', body:'coupe', paint:'#e2bd17', rim:'multi', cal:'grey',
  mass:1570, cda:0.67, top:250, vlim:250, crr:0.014, rw:0.331, eta:0.9, Ie:0.18, idle:850, limit:8000, launch:4500, grip:0.95, box:'manual',
  tq:[[0,250],[1000,270],[2000,300],[3000,320],[4000,340],[4900,355],[6000,350],[7000,340],[7900,315],[8000,305],[8400,250]],
  gearTop:[0,65,109,165,224,276,332],
  order:[1,5,3,6,2,4], banks:[[1,2,3,4,5,6]], fo:'Firing order 1 · 5 · 3 · 6 · 2 · 4 · six individual throttle bodies',
- snd:{ord:1.2, hd:[0.7,0.8], md:[4.0,4.4], W:90, low:[115,3], rasp:2600, lpO:[3800,9000], lpC:[1800,2800], drive:1.15, nz:0.24, intake:0.9, whine:0.005, mix:0.6},
+ snd:{ord:1.6, hd:[0.7,0.8], md:[4.0,4.4], W:90, low:[115,3], rasp:2600, lpO:[3800,9000], lpC:[1800,2800], drive:1.15, nz:0.24, intake:0.9, whine:0.005, mix:0.6},
  dash:{kind:'dial', face:'#0b0b0b', bezel:'#1e1f21', num:'#f2f2f2', needle:'#ff5a14', red:'#e1251b', hub:'#151515', leds:true, label:'1/min × 1000'}},
 {id:'gtr', name:'Nissan GT-R (R35)', sub:'3.8 L twin-turbo V6 · 6-speed dual-clutch · 7,000 rpm', body:'coupe', paint:'#50555c', rim:'multi', cal:'red',
  mass:1750, cda:0.715, top:315, crr:0.014, rw:0.353, eta:0.9, Ie:0.25, idle:900, limit:7100, launch:4500, grip:1.3, box:'dct',
@@ -335,7 +335,7 @@ const CARS = [
  tq:[[0,300],[1000,380],[2000,500],[3300,633],[5800,633],[6800,590],[7100,560],[7500,450]],
  gearTop:[0,63,112,160,205,256,330],
  order:[1,2,3,4,5,6], banks:[[1,3,5],[2,4,6]], fo:'Firing order 1 · 2 · 3 · 4 · 5 · 6 · 120° even fire, twin turbo',
- snd:{ord:1.2, hd:[0.9,1.0], md:[5,5.5], W:105, low:[110,3], rasp:2000, lpO:[2800,6500], lpC:[1400,2100], drive:1.0, nz:0.22, intake:0.3, whine:0.02, whF:17, mix:0.6, tw:0.03, twf:6400, bov:0.15, psi:15},
+ snd:{ord:1.5, hd:[0.9,1.0], md:[5,5.5], W:105, low:[110,3], rasp:2000, lpO:[2800,6500], lpC:[1400,2100], drive:1.0, nz:0.22, intake:0.3, whine:0.02, whF:17, mix:0.6, tw:0.03, twf:6400, bov:0.15, psi:15},
  dash:{kind:'dial', face:'#0b0c10', bezel:'#9aa0a8', num:'#e8edf5', needle:'#e82121', red:'#e82121', hub:'#1c1e24', label:'× 1000 r/min'}},
 {id:'aventador', name:'Lamborghini Aventador', sub:'6.5 L V12 · 7-speed single-clutch · 8,500 rpm', body:'super', paint:'#7cc21f', rim:'five', cal:'grey',
  mass:1650, cda:0.675, top:350, crr:0.013, rw:0.355, eta:0.9, Ie:0.3, idle:1000, limit:8500, launch:4500, grip:1.2, box:'isr',
@@ -349,7 +349,7 @@ const CARS = [
  tq:[[0,500],[1000,600],[2000,720],[3000,800],[4000,860],[4800,889],[5500,870],[6000,840],[6200,820],[6600,700]],
  gearTop:[0,69,104,154,195,252,325,387,485],
  order:[1,8,4,3,6,5,7,2], banks:[[1,3,5,7],[2,4,6,8]], fo:'Firing order 1 · 8 · 4 · 3 · 6 · 5 · 7 · 2 · cross-plane, 2.4 L supercharger',
- snd:{ord:0.55, sub:1.45, hd:[1.1,1.3], md:[6.2,7.0], rM:-0.5, W:110, low:[80,7], rasp:1600, lpO:[2600,7000], lpC:[1300,2100], drive:1.4, nz:0.3, intake:0.3, whine:0.004, mix:0.66, sc:{mult:14, amt:0.07}, psi:11.6},
+ snd:{ord:2.0, sub:1.45, hd:[1.1,1.3], md:[6.2,7.0], rM:-0.5, W:110, low:[80,7], rasp:1600, lpO:[2600,7000], lpC:[1300,2100], drive:1.4, nz:0.3, intake:0.3, whine:0.004, mix:0.66, sc:{mult:14, amt:0.07}, psi:11.6},
  dash:{kind:'dial', face:'#0a0a0a', bezel:'#3a0f0a', num:'#f0f0f0', needle:'#ff3b10', red:'#ff3b10', hub:'#1a1a1a', glow:'#ff3b10', label:'RPM × 1000'}},
 {id:'sti', name:'Subaru WRX STI', sub:'2.5 L turbo boxer four · 6-speed manual · 6,700 rpm', body:'sedan', paint:'#1d4f9c', rim:'multi', cal:'red', extras:['wingSti','scoop'],
  mass:1600, cda:0.72, top:256, crr:0.014, rw:0.327, eta:0.88, Ie:0.2, idle:800, limit:6700, launch:4500, grip:1.05, box:'manual',
@@ -357,7 +357,7 @@ const CARS = [
  tq:[[0,180],[1000,200],[2000,250],[3000,340],[4000,393],[5000,385],[6000,365],[6700,330],[7000,280]],
  gearTop:[0,58,90,121,158,219,281],
  order:[1,3,2,4], banks:[[1,3],[2,4]], fo:'Firing order 1 · 3 · 2 · 4 · unequal-length headers',
- snd:{sub:1.15, hd:[1.0,1.25], md:[5.0,5.8], W:105, offs:[0,26,-10,34], low:[90,6], rasp:1800, lpO:[2600,6500], lpC:[1300,2000], drive:1.1, nz:0.26, intake:0.35, whine:0.005, mix:0.55, tw:0.03, twf:4600, bov:0.6, psi:16, gain:1.15},
+ snd:{ord:1.5, sub:1.15, hd:[1.0,1.25], md:[5.0,5.8], W:105, offs:[0,26,-10,34], low:[90,6], rasp:1800, lpO:[2600,6500], lpC:[1300,2000], drive:1.1, nz:0.26, intake:0.35, whine:0.005, mix:0.55, tw:0.03, twf:4600, bov:0.6, psi:16, gain:1.15},
  dash:{kind:'dial', face:'#0b0b0d', bezel:'#1d1d22', num:'#ffffff', needle:'#ff2a2a', red:'#ff2a2a', hub:'#151518', glow:'#d4202a', label:'× 1000 r/min'}},
 {id:'model3', name:'Tesla Model 3 Long Range AWD', sub:'2026 · dual motor · 394 hp · 0–60 mph in 4.2 s', body:'sedan', paint:'#22406f', rim:'aero', cal:'grey',
  mass:1900, cda:0.56, top:201, vlim:201, crr:0.011, rw:0.335, eta:0.95, Ie:0.05, idle:0, limit:18000, grip:0.95, box:'ev', gearTop:[0,215],
@@ -375,7 +375,7 @@ const CARS = [
  gearTop:[0,50,70,90,110,130],
  order:[1], banks:[[1]], fo:'One bang per revolution · expansion chamber',
  exh:['Stock silencer','Race pipe'], exhLv:[0,2],
- snd:{ord:0.4, sub:0.6, cyc:360, hd:[0.4,0.4], md:[3.8,3.8], rH:-0.25, rM:-0.7, W:70, low:[140,3], rasp:3500, lpO:[3500,9000], lpC:[2600,4000], drive:1.8, nz:0.4, intake:0.3, whine:0, mix:0.5, skip:0.5, gain:0.9},
+ snd:{ord:1.0, sub:0.6, cyc:360, hd:[0.4,0.4], md:[3.8,3.8], rH:-0.25, rM:-0.7, W:70, low:[140,3], rasp:3500, lpO:[3500,9000], lpC:[2600,4000], drive:1.8, nz:0.4, intake:0.3, whine:0, mix:0.5, skip:0.5, gain:0.9},
  dash:{kind:'dial', face:'#efe6cf', bezel:'#c9ccd0', num:'#1b1b1b', needle:'#151515', red:'#c0261d', hub:'#2a2a2a', label:'R.P.M. × 1000'}},
 {id:'plaid', name:'Tesla Model S Plaid', sub:'2026 · tri-motor · 1,020 hp · 0–60 mph in 1.99 s', body:'sedan', paint:'#a8171f', rim:'aero', cal:'red',
  mass:2240, cda:0.58, top:282, vlim:282, crr:0.011, rw:0.35, eta:0.95, Ie:0.05, idle:0, limit:20000, grip:1.5, box:'ev', gearTop:[0,292],
@@ -802,6 +802,13 @@ class Voice {
     this.DHA=Math.max(1,Math.round(s.hd[0]*fs/1000)); this.DHB=Math.max(1,Math.round(s.hd[1]*fs/1000));
     this.DMA=Math.max(1,Math.round(s.md[0]*fs/1000)); this.DMB=Math.max(1,Math.round(s.md[1]*fs/1000));
     this.gap=this.space;
+    // engine orders (per crank revolution): firing order, bank order, crank order and the half-orders between.
+    // The sub layer always voices the rungs that fall in the car-sub band, so the bass follows the engine at any rpm.
+    const fo = n*360/(s.cyc||720);
+    this.orders=[]; for(let j=1;j<=Math.round(fo*4);j++){ const k=j/2;
+      const w = Math.abs(k-fo)<0.01 ? 1 : Math.abs(k-fo/2)<0.01 ? 0.9 : (k===1||k===0.5) ? 0.6 : Math.abs(k-2*fo)<0.01 ? 0.5 : 0.32;
+      this.orders.push({k,w,g:0}); }
+    this.oNorm=1;
   }
   fire(strength, cut, popRate, load){
     const k=this.k, n=this.n, nk=(k+1)%n; this.k=nk;
@@ -952,6 +959,9 @@ class Voice {
     const subAmt=(s.sub||1)*this.bass*(cabin?1.5:0.9)*(0.6+0.4*load);
     // under load the cabin thumps at the crank's own low orders: once per revolution and once per cycle
     const ordAmt=(s.ord||1)*this.bass*(cabin?0.32:0.18)*(0.25+0.75*Math.pow(load,0.8));
+    { const fr=Math.max(r1,1)/60; let tot=0;
+      for(const o of this.orders){ const f=o.k*fr, d=Math.log2(Math.max(f,1)/62)/0.6; const g=f<28?0:o.w*Math.exp(-0.5*d*d); o.g+= (g-o.g)*Math.min(1,dtb*20); tot+=o.g*o.g; }
+      this.oNorm=1/Math.max(0.55,Math.sqrt(tot)); }
     const exG = cabin ? 0.85*(0.6+0.4*flap) : 1.0*(0.5+0.5*flap);
     const inG = cabin ? 0.75 : 0.22;
     const intakeAmt = s.intake*(1+1.2*vt)*Math.pow(load,1.2)*Math.pow(Math.max(rn,0),0.7) + (r1>300?0.025:0);
@@ -966,7 +976,7 @@ class Voice {
     const scAmt = s.sc ? s.sc.amt*(0.25+0.75*load)*Math.min(1,rn*1.6) : 0, scMult = s.sc ? s.sc.mult : 0;
     const roadAmt=(cabin?0.07:0.035)*Math.pow(Math.min(1,car.v/45),1.5);
     const cranking=car.state==='crank';
-    const mix=s.mix!=null?s.mix:0.62, OUT=0.5*(s.gain||1);
+    const mix=s.mix!=null?s.mix:0.62, OUT=0.34*(s.gain||1);   // headroom so the sub layer never clips
 
     for(let j=0;j<n;j++){
       const fj=j/n, rpm=r0+(r1-r0)*fj; this.rpmNow=rpm;
@@ -994,7 +1004,9 @@ class Voice {
       this.oPh+=rpm/60/fs; if(this.oPh>1) this.oPh-=1;
       this.hPh+=rpm/120/fs; if(this.hPh>1) this.hPh-=1;
       const sOn=strength>0.1?strength:0;
-      const ords=(Math.sin(2*Math.PI*this.oPh)*0.6 + Math.sin(2*Math.PI*this.hPh)*0.5)*sOn*ordAmt*(0.85+0.3*(this.envP-0.5));
+      let ladder=0; const hp=2*Math.PI*this.hPh;
+      for(let q=0;q<this.orders.length;q++){ const o=this.orders[q]; if(o.g>0.01) ladder+=Math.sin(hp*2*o.k)*o.g; }
+      const ords=ladder*this.oNorm*1.1*sOn*ordAmt*(0.85+0.3*(this.envP-0.5));
       const subO=this.sP.run(this.sH.run(this.sB.run(this.sA.run((ea+eb)*subAmt + ords))));
 
       if(this.pops.length){
