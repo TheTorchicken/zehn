@@ -529,7 +529,9 @@ class Car {
     const sp=this.sp, m=sp.mass, a=inp.ga||0, v=Math.max(this.v, inp.gv||0);
     const Fres=0.5*1.2*sp.cda*v*v + (v>0.3?sp.crr*m*9.81:0);
     const coast=-Fres/m-0.15;
-    if(a<coast-0.25 || (v<0.5 && a<0.15)) return 0;
+    if(v<0.5 && a<0.15) return 0;
+    if(a<coast-0.3) return 0;              // clearly lifting off or braking
+    const cruise = v>2.5 ? 0.22 : 0;      // holding speed still takes throttle
     let Fmax;
     if(this.ev) Fmax=Math.min(this.tmax(Math.max(this.rpm,1))*this.ratio[1]*sp.eta/sp.rw, sp.grip*m*9.81);
     else {
@@ -537,7 +539,11 @@ class Car {
       const bm = sp.turbo ? sp.turbo.na+(1-sp.turbo.na)*Math.max(this.boost,0.6) : 1;
       Fmax=Math.min(this.tmax(r)*bm*this.ratio[g]*sp.eta/sp.rw, sp.grip*m*9.81);
     }
-    return Math.pow(clamp((m*a+Fres)/Math.max(Fmax,1),0,1),0.8);
+    // everyday driving is gentle next to what the car can do: half its pull already counts as flat out.
+    // Small wobbles in the estimate while holding speed read as steady cruise, not as throttle stabs.
+    const aEff = Math.abs(a)<0.35 ? 0 : a;
+    const need=(m*Math.max(aEff,0)+Fres)/Math.max(Fmax,1);
+    return clamp(cruise+(1-cruise)*Math.pow(clamp(need/0.5,0,1),0.75),0,1);
   }
   timer(dt, ped, brk){
     if(this.v<0.3 && (ped<0.2 || brk>0.1)){ this.tArm=true; this.tRun=null; }
@@ -682,6 +688,7 @@ class Car {
       if(Tc>0 && wr>sp.idle*0.7 && wr>=newRpm-60*(L0/8700)) this.locked=true;
     }
     Fdrive = Math.min(Fdrive, sp.grip*m*9.81);
+    if(gps && running && g>0 && !this.locked && !this.shift && this.wheelRpm(g)>sp.idle*1.05) this.locked=true;
 
     if(gps){
       this.v += ((inp.gv||0)-this.v)*Math.min(1,dt*9);
