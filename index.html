@@ -233,6 +233,10 @@ kbd{font-family:var(--num);font-weight:600;font-size:12px;color:var(--fg);border
           <div class="seg" id="lisSeg" role="group" aria-label="Listening position"><button data-v="cabin" aria-pressed="true" id="lisCabin">Cabin</button><button data-v="outside" aria-pressed="false">Outside</button></div>
           <input class="vol" id="vol" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume">
         </div>
+        <div class="ctl"><span class="k">Bass</span>
+          <input class="vol" id="bass" type="range" min="0" max="2" step="0.05" value="1" aria-label="Bass for subwoofers">
+          <span class="note" id="bassV" style="min-height:0">100%</span>
+        </div>
         <div class="note" id="note">Press <b>Enter</b> or the red button to start the engine.</div>
       </div>
     </section>
@@ -272,14 +276,14 @@ const CARS = [
  tq:[[0,240],[1000,330],[2000,390],[3000,440],[4000,490],[5000,530],[6000,565],[6600,580],[7200,575],[8000,545],[8700,505],[9300,400]],
  gearTop:[0,88,129,172,218,260,300,345],
  order:[1,6,5,10,2,7,3,8,4,9], banks:[[1,2,3,4,5],[6,7,8,9,10]], fo:'Firing order 1 · 6 · 5 · 10 · 2 · 7 · 3 · 8 · 4 · 9 · 72° even fire',
- snd:{hd:[0.85,1.05], md:[4.4,5.0], rH:-0.32, rM:-0.46, W:95, low:[115,3], rasp:2600, lpO:[4200,9500], lpC:[1700,2600], drive:1.1, nz:0.22, intake:0.55, whine:0.006, mix:0.62},
+ snd:{sub:1.2, ord:1.8, hd:[0.85,1.05], md:[4.4,5.0], rH:-0.32, rM:-0.46, W:95, low:[115,3], rasp:2600, lpO:[4200,9500], lpC:[1700,2600], drive:1.1, nz:0.22, intake:0.55, whine:0.006, mix:0.62},
  dash:{kind:'cockpit'}},
 {id:'gt3', name:'Porsche 911 GT3', sub:'4.0 L flat-six · 7-speed PDK · 9,000 rpm', body:'p911', paint:'#2e78c9', rim:'multi', cal:'red', extras:['wing911'],
  mass:1510, cda:0.625, top:318, crr:0.013, rw:0.35, eta:0.92, Ie:0.2, idle:950, limit:9000, launch:5000, grip:1.15, box:'dct',
  tq:[[0,250],[1000,300],[2000,340],[3000,380],[4000,420],[5000,445],[6100,470],[7000,465],[8000,450],[8400,430],[9000,390],[9500,300]],
  gearTop:[0,85,125,165,205,245,285,335],
  order:[1,6,2,4,3,5], banks:[[1,2,3],[4,5,6]], fo:'Firing order 1 · 6 · 2 · 4 · 3 · 5 · flat-six, 120° even fire',
- snd:{hd:[0.6,0.7], md:[3.2,3.5], rH:-0.3, rM:-0.42, W:85, low:[130,2], rasp:3200, lpO:[5000,11000], lpC:[2200,3200], drive:1.3, nz:0.25, intake:0.8, whine:0.005, mix:0.6},
+ snd:{ord:1.6, hd:[0.6,0.7], md:[3.2,3.5], rH:-0.3, rM:-0.42, W:85, low:[130,2], rasp:3200, lpO:[5000,11000], lpC:[2200,3200], drive:1.3, nz:0.25, intake:0.8, whine:0.005, mix:0.6},
  dash:{kind:'dial', face:'#0b0b0c', bezel:'#26272a', num:'#f2f2f2', needle:'#e8202a', red:'#e8202a', hub:'#1a1a1a', label:'1/min × 1000'}},
 {id:'supra', name:'Toyota Supra A80', sub:'3.0 L twin-turbo straight-six · 6-speed manual · 7,000 rpm', body:'coupe', paint:'#e8742a', rim:'five', cal:'red',
  mass:1570, cda:0.62, top:250, vlim:250, crr:0.014, rw:0.318, eta:0.88, Ie:0.22, idle:800, limit:7000, launch:4500, grip:0.95, box:'manual',
@@ -294,14 +298,14 @@ const CARS = [
  tq:[[0,300],[1000,330],[2000,380],[3000,420],[4000,470],[5000,510],[6000,540],[7000,535],[8000,520],[9000,465],[9500,380]],
  gearTop:[0,92,132,178,223,262,300,340],
  order:[1,5,3,7,4,8,2,6], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 5 · 3 · 7 · 4 · 8 · 2 · 6 · flat-plane crank',
- snd:{hd:[0.7,0.75], md:[3.6,3.9], rM:-0.44, W:85, low:[120,2], rasp:3400, lpO:[5500,12000], lpC:[2200,3400], drive:1.4, nz:0.28, intake:0.6, whine:0.005, mix:0.62},
+ snd:{ord:1.6, hd:[0.7,0.75], md:[3.6,3.9], rM:-0.44, W:85, low:[120,2], rasp:3400, lpO:[5500,12000], lpC:[2200,3400], drive:1.4, nz:0.28, intake:0.6, whine:0.005, mix:0.62},
  dash:{kind:'dial', face:'#f2c200', bezel:'#1c1c1c', num:'#111111', needle:'#cc0000', red:'#cc0000', hub:'#111111', label:'giri/min × 1000'}},
 {id:'mustang', name:'Ford Mustang GT', sub:'5.0 L cross-plane V8 · 6-speed manual · 7,400 rpm', body:'coupe', paint:'#e6e6e2', rim:'multi', cal:'red',
  mass:1750, cda:0.78, top:250, vlim:250, crr:0.014, rw:0.344, eta:0.9, Ie:0.28, idle:700, limit:7400, launch:4000, grip:0.9, box:'manual',
  tq:[[0,350],[1000,420],[2000,480],[3000,520],[4000,555],[4600,569],[5500,560],[6500,520],[7000,490],[7400,455],[7800,380]],
  gearTop:[0,74,111,160,205,270,415],
  order:[1,5,4,8,6,3,7,2], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 5 · 4 · 8 · 6 · 3 · 7 · 2 · cross-plane crank',
- snd:{hd:[1.2,1.4], md:[6.5,7.4], rM:-0.5, W:110, low:[85,7], rasp:1700, lpO:[2800,7000], lpC:[1300,2000], drive:1.3, nz:0.25, intake:0.35, whine:0.005, mix:0.68},
+ snd:{ord:0.75, sub:1.35, hd:[1.2,1.4], md:[6.5,7.4], rM:-0.5, W:110, low:[85,7], rasp:1700, lpO:[2800,7000], lpC:[1300,2000], drive:1.3, nz:0.25, intake:0.35, whine:0.005, mix:0.68},
  dash:{kind:'dial', face:'#0d0e10', bezel:'#a7adb3', num:'#ececec', needle:'#e33a1f', red:'#e33a1f', hub:'#202226', label:'ENGINE RPM'}},
 {id:'f150', name:'Ford F-150 (1995)', sub:'5.8 L V8 · 4-speed automatic · 4,800 rpm', body:'truck', paint:'#2f4a3a', rim:'steel', cal:null,
  mass:2150, cda:1.45, top:161, vlim:161, crr:0.016, rw:0.366, eta:0.85, Ie:0.45, idle:650, limit:4800, launch:2200, grip:0.75, box:'auto', stall:2300,
@@ -309,21 +313,21 @@ const CARS = [
  gearTop:[0,69,121,187,263],
  order:[1,3,7,2,6,5,4,8], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 3 · 7 · 2 · 6 · 5 · 4 · 8 · cross-plane crank',
  exh:['Stock','Borla'], exhLv:[0,2],
- snd:{hd:[1.4,1.6], md:[8,9], rM:-0.5, W:120, low:[72,7], rasp:1400, lpO:[1800,6000], lpC:[1000,1600], drive:0.9, nz:0.3, intake:0.25, whine:0.003, mix:0.5, gain:1.2},
+ snd:{ord:0.35, sub:1.4, hd:[1.4,1.6], md:[8,9], rM:-0.5, W:120, low:[72,7], rasp:1400, lpO:[1800,6000], lpC:[1000,1600], drive:0.9, nz:0.3, intake:0.25, whine:0.003, mix:0.5, gain:1.2},
  dash:{kind:'sweep', face:'#0f1011', bezel:'#2b2c2e', num:'#f1f1f1', needle:'#ff7a1a', red:'#e2261a', label:'RPM × 1000'}},
 {id:'s2000', name:'Honda S2000', sub:'2.0 L four-cylinder · 6-speed manual · 8,900 rpm', body:'roadster', paint:'#b9bcbf', rim:'five', cal:'red',
  mass:1300, cda:0.705, top:241, crr:0.013, rw:0.315, eta:0.9, Ie:0.12, idle:900, limit:9000, launch:5500, grip:0.95, box:'manual',
  tq:[[0,135],[1000,155],[2000,178],[3000,195],[4000,200],[5000,205],[5800,200],[6000,226],[7000,232],[7500,235],[8300,228],[9000,208],[9400,168]],
  gearTop:[0,82,126,174,222,266,318],
  order:[1,3,4,2], banks:[[1,2,3,4]], fo:'Firing order 1 · 3 · 4 · 2 · VTEC at 5,800 rpm',
- snd:{hd:[0.55,0.6], md:[3.0,3.3], W:80, low:[140,2], rasp:3000, lpO:[4500,10000], lpC:[2000,3000], drive:1.2, nz:0.3, intake:0.5, whine:0.004, mix:0.55, vtec:5800, gain:1.15},
+ snd:{ord:1.1, hd:[0.55,0.6], md:[3.0,3.3], W:80, low:[140,2], rasp:3000, lpO:[4500,10000], lpC:[2000,3000], drive:1.2, nz:0.3, intake:0.5, whine:0.004, mix:0.55, vtec:5800, gain:1.15},
  dash:{kind:'bar', color:'#ffae1a', red:'#ff3b1a', face:'#060606'}},
 {id:'m3', name:'BMW M3 (E46)', sub:'3.2 L straight-six · 6-speed manual · 8,000 rpm', body:'coupe', paint:'#e2bd17', rim:'multi', cal:'grey',
  mass:1570, cda:0.67, top:250, vlim:250, crr:0.014, rw:0.331, eta:0.9, Ie:0.18, idle:850, limit:8000, launch:4500, grip:0.95, box:'manual',
  tq:[[0,250],[1000,270],[2000,300],[3000,320],[4000,340],[4900,355],[6000,350],[7000,340],[7900,315],[8000,305],[8400,250]],
  gearTop:[0,65,109,165,224,276,332],
  order:[1,5,3,6,2,4], banks:[[1,2,3,4,5,6]], fo:'Firing order 1 · 5 · 3 · 6 · 2 · 4 · six individual throttle bodies',
- snd:{hd:[0.7,0.8], md:[4.0,4.4], W:90, low:[115,3], rasp:2600, lpO:[3800,9000], lpC:[1800,2800], drive:1.15, nz:0.24, intake:0.9, whine:0.005, mix:0.6},
+ snd:{ord:1.2, hd:[0.7,0.8], md:[4.0,4.4], W:90, low:[115,3], rasp:2600, lpO:[3800,9000], lpC:[1800,2800], drive:1.15, nz:0.24, intake:0.9, whine:0.005, mix:0.6},
  dash:{kind:'dial', face:'#0b0b0b', bezel:'#1e1f21', num:'#f2f2f2', needle:'#ff5a14', red:'#e1251b', hub:'#151515', leds:true, label:'1/min × 1000'}},
 {id:'gtr', name:'Nissan GT-R (R35)', sub:'3.8 L twin-turbo V6 · 6-speed dual-clutch · 7,000 rpm', body:'coupe', paint:'#50555c', rim:'multi', cal:'red',
  mass:1750, cda:0.715, top:315, crr:0.014, rw:0.353, eta:0.9, Ie:0.25, idle:900, limit:7100, launch:4500, grip:1.3, box:'dct',
@@ -331,21 +335,21 @@ const CARS = [
  tq:[[0,300],[1000,380],[2000,500],[3300,633],[5800,633],[6800,590],[7100,560],[7500,450]],
  gearTop:[0,63,112,160,205,256,330],
  order:[1,2,3,4,5,6], banks:[[1,3,5],[2,4,6]], fo:'Firing order 1 · 2 · 3 · 4 · 5 · 6 · 120° even fire, twin turbo',
- snd:{hd:[0.9,1.0], md:[5,5.5], W:105, low:[110,3], rasp:2000, lpO:[2800,6500], lpC:[1400,2100], drive:1.0, nz:0.22, intake:0.3, whine:0.02, whF:17, mix:0.6, tw:0.03, twf:6400, bov:0.15, psi:15},
+ snd:{ord:1.2, hd:[0.9,1.0], md:[5,5.5], W:105, low:[110,3], rasp:2000, lpO:[2800,6500], lpC:[1400,2100], drive:1.0, nz:0.22, intake:0.3, whine:0.02, whF:17, mix:0.6, tw:0.03, twf:6400, bov:0.15, psi:15},
  dash:{kind:'dial', face:'#0b0c10', bezel:'#9aa0a8', num:'#e8edf5', needle:'#e82121', red:'#e82121', hub:'#1c1e24', label:'× 1000 r/min'}},
 {id:'aventador', name:'Lamborghini Aventador', sub:'6.5 L V12 · 7-speed single-clutch · 8,500 rpm', body:'super', paint:'#7cc21f', rim:'five', cal:'grey',
  mass:1650, cda:0.675, top:350, crr:0.013, rw:0.355, eta:0.9, Ie:0.3, idle:1000, limit:8500, launch:4500, grip:1.2, box:'isr',
  tq:[[0,300],[1000,380],[2000,450],[3000,520],[4000,600],[5500,690],[6500,680],[7500,660],[8250,620],[8500,600],[9000,450]],
  gearTop:[0,85,120,160,200,245,290,368],
  order:[1,7,4,10,2,8,6,12,3,9,5,11], banks:[[1,2,3,4,5,6],[7,8,9,10,11,12]], fo:'Firing order 1 · 7 · 4 · 10 · 2 · 8 · 6 · 12 · 3 · 9 · 5 · 11 · 60° even fire',
- snd:{hd:[0.75,0.8], md:[3.8,4.1], W:80, low:[120,2], rasp:3000, lpO:[5000,12000], lpC:[2000,3200], drive:1.3, nz:0.22, intake:0.6, whine:0.005, mix:0.62},
+ snd:{ord:1.5, hd:[0.75,0.8], md:[3.8,4.1], W:80, low:[120,2], rasp:3000, lpO:[5000,12000], lpC:[2000,3200], drive:1.3, nz:0.22, intake:0.6, whine:0.005, mix:0.62},
  dash:{kind:'hex', color:'#ffb400', red:'#ff2d1a', face:'#050505'}},
 {id:'hellcat', name:'Dodge Challenger Hellcat', sub:'6.2 L supercharged V8 · 8-speed automatic · 6,200 rpm', body:'coupe', paint:'#5a2b78', rim:'five', cal:'red',
  mass:2030, cda:0.80, top:320, crr:0.014, rw:0.364, eta:0.88, Ie:0.35, idle:700, limit:6200, launch:2800, grip:0.85, box:'auto', stall:3000,
  tq:[[0,500],[1000,600],[2000,720],[3000,800],[4000,860],[4800,889],[5500,870],[6000,840],[6200,820],[6600,700]],
  gearTop:[0,69,104,154,195,252,325,387,485],
  order:[1,8,4,3,6,5,7,2], banks:[[1,3,5,7],[2,4,6,8]], fo:'Firing order 1 · 8 · 4 · 3 · 6 · 5 · 7 · 2 · cross-plane, 2.4 L supercharger',
- snd:{hd:[1.1,1.3], md:[6.2,7.0], rM:-0.5, W:110, low:[80,7], rasp:1600, lpO:[2600,7000], lpC:[1300,2100], drive:1.4, nz:0.3, intake:0.3, whine:0.004, mix:0.66, sc:{mult:14, amt:0.07}, psi:11.6},
+ snd:{ord:0.55, sub:1.45, hd:[1.1,1.3], md:[6.2,7.0], rM:-0.5, W:110, low:[80,7], rasp:1600, lpO:[2600,7000], lpC:[1300,2100], drive:1.4, nz:0.3, intake:0.3, whine:0.004, mix:0.66, sc:{mult:14, amt:0.07}, psi:11.6},
  dash:{kind:'dial', face:'#0a0a0a', bezel:'#3a0f0a', num:'#f0f0f0', needle:'#ff3b10', red:'#ff3b10', hub:'#1a1a1a', glow:'#ff3b10', label:'RPM × 1000'}},
 {id:'sti', name:'Subaru WRX STI', sub:'2.5 L turbo boxer four · 6-speed manual · 6,700 rpm', body:'sedan', paint:'#1d4f9c', rim:'multi', cal:'red', extras:['wingSti','scoop'],
  mass:1600, cda:0.72, top:256, crr:0.014, rw:0.327, eta:0.88, Ie:0.2, idle:800, limit:6700, launch:4500, grip:1.05, box:'manual',
@@ -353,7 +357,7 @@ const CARS = [
  tq:[[0,180],[1000,200],[2000,250],[3000,340],[4000,393],[5000,385],[6000,365],[6700,330],[7000,280]],
  gearTop:[0,58,90,121,158,219,281],
  order:[1,3,2,4], banks:[[1,3],[2,4]], fo:'Firing order 1 · 3 · 2 · 4 · unequal-length headers',
- snd:{hd:[1.0,1.25], md:[5.0,5.8], W:105, offs:[0,26,-10,34], low:[90,6], rasp:1800, lpO:[2600,6500], lpC:[1300,2000], drive:1.1, nz:0.26, intake:0.35, whine:0.005, mix:0.55, tw:0.03, twf:4600, bov:0.6, psi:16, gain:1.15},
+ snd:{sub:1.15, hd:[1.0,1.25], md:[5.0,5.8], W:105, offs:[0,26,-10,34], low:[90,6], rasp:1800, lpO:[2600,6500], lpC:[1300,2000], drive:1.1, nz:0.26, intake:0.35, whine:0.005, mix:0.55, tw:0.03, twf:4600, bov:0.6, psi:16, gain:1.15},
  dash:{kind:'dial', face:'#0b0b0d', bezel:'#1d1d22', num:'#ffffff', needle:'#ff2a2a', red:'#ff2a2a', hub:'#151518', glow:'#d4202a', label:'× 1000 r/min'}},
 {id:'model3', name:'Tesla Model 3 Long Range AWD', sub:'2026 · dual motor · 394 hp · 0–60 mph in 4.2 s', body:'sedan', paint:'#22406f', rim:'aero', cal:'grey',
  mass:1900, cda:0.56, top:201, vlim:201, crr:0.011, rw:0.335, eta:0.95, Ie:0.05, idle:0, limit:18000, grip:0.95, box:'ev', gearTop:[0,215],
@@ -371,7 +375,7 @@ const CARS = [
  gearTop:[0,50,70,90,110,130],
  order:[1], banks:[[1]], fo:'One bang per revolution · expansion chamber',
  exh:['Stock silencer','Race pipe'], exhLv:[0,2],
- snd:{cyc:360, hd:[0.4,0.4], md:[3.8,3.8], rH:-0.25, rM:-0.7, W:70, low:[140,3], rasp:3500, lpO:[3500,9000], lpC:[2600,4000], drive:1.8, nz:0.4, intake:0.3, whine:0, mix:0.5, skip:0.5, gain:0.9},
+ snd:{ord:0.4, sub:0.6, cyc:360, hd:[0.4,0.4], md:[3.8,3.8], rH:-0.25, rM:-0.7, W:70, low:[140,3], rasp:3500, lpO:[3500,9000], lpC:[2600,4000], drive:1.8, nz:0.4, intake:0.3, whine:0, mix:0.5, skip:0.5, gain:0.9},
  dash:{kind:'dial', face:'#efe6cf', bezel:'#c9ccd0', num:'#1b1b1b', needle:'#151515', red:'#c0261d', hub:'#2a2a2a', label:'R.P.M. × 1000'}},
 {id:'plaid', name:'Tesla Model S Plaid', sub:'2026 · tri-motor · 1,020 hp · 0–60 mph in 1.99 s', body:'sedan', paint:'#a8171f', rim:'aero', cal:'red',
  mass:2240, cda:0.58, top:282, vlim:282, crr:0.011, rw:0.35, eta:0.95, Ie:0.05, idle:0, limit:20000, grip:1.5, box:'ev', gearTop:[0,292],
@@ -386,6 +390,72 @@ const CARS = [
 ];
 const clamp = (x,a,b) => x<a?a:x>b?b:x;
 const RAD = 2*Math.PI/60;
+
+
+// GPS speed tracker: a small Kalman filter over [speed, acceleration].
+// Fixes arrive about once a second and a little late; each is weighted by its reported accuracy,
+// outliers are distrusted, and between fixes speed is extrapolated with a decaying acceleration
+// plus a short lead that makes up for GPS lag.
+class GpsTrack {
+  constructor(){ this.reset(); }
+  reset(){ this.v=0; this.a=0; this.P00=25; this.P01=0; this.P11=9; this.t=null; this.local=0; this.rate=0; this.n=0; this.acc=null; this.pos=null; this.posT=0; this.q=10; this.lag=0.35; this.wasStill=true; this.fv=null; this.fa=0; this.fl=0; }
+  static hav(a,b){ const R=6371000, k=Math.PI/180, dLa=(b.lat-a.lat)*k, dLo=(b.lon-a.lon)*k;
+    const x=Math.sin(dLa/2)**2+Math.cos(a.lat*k)*Math.cos(b.lat*k)*Math.sin(dLo/2)**2; return 2*R*Math.asin(Math.sqrt(x)); }
+  predict(dt){ const q=this.q, dt2=dt*dt;
+    this.v+=this.a*dt;
+    const P00=this.P00+dt*(2*this.P01+dt*this.P11)+q*dt2*dt/3, P01=this.P01+dt*this.P11+q*dt2/2, P11=this.P11+q*dt;
+    this.P00=P00; this.P01=P01; this.P11=P11; }
+  fix(t, local, speed, accuracy, lat, lon){
+    let z=speed, sig=0.25+(accuracy||10)*0.02;
+    if(z==null || !isFinite(z)){
+      z=null;
+      if(lat!=null && this.pos && t>this.posT+0.2){ z=GpsTrack.hav(this.pos,{lat,lon})/(t-this.posT); sig=0.6+(accuracy||15)*0.08; }
+    }
+    if(lat!=null){ this.pos={lat,lon}; this.posT=t; }
+    if(z==null) return false;
+    this.acc=accuracy;
+    if(this.t==null){ this.v=z; this.a=0; this.t=t; this.local=local; this.n=1; return true; }
+    const dt=t-this.t; if(dt<0.05) return false;
+    this.rate = this.rate ? this.rate*0.8+0.2/dt : 1/dt;
+    this.predict(Math.min(dt,5));
+    let R=sig*sig; const y=z-this.v, nis=Math.abs(y)/Math.sqrt(this.P00+R);
+    // a jump that fits a real change (launch, lift, braking) opens the filter up so it follows at once;
+    // a jump far beyond any car's ability is treated as a bad fix
+    if(Math.abs(y)/dt>14) R*=8;
+    else if(nis>1.6){ this.P11+=this.q*1.5*(nis-1.6); this.P01+=this.q*0.6*(nis-1.6)*dt; }
+    const S=this.P00+R, K0=this.P00/S, K1=this.P01/S;
+    this.v+=K0*y; this.a+=K1*y;
+    const P00=(1-K0)*this.P00, P01=(1-K0)*this.P01, P11=this.P11-K1*this.P01;
+    this.P00=P00; this.P01=P01; this.P11=P11;
+    this.a=clamp(this.a,-11,11);
+    // pulling away from a stop: motion began somewhere in the last interval, so the acceleration is
+    // at least the new speed over the half-interval it has had (minus GPS lag)
+    if(this.wasStill && z>0.8){ const aL=clamp(z/Math.max(0.25,dt*0.5-this.lag*0.5),0,9); if(aL>this.a){ this.a=aL; this.P11+=this.q; } }
+    this.wasStill = z<0.4;
+    if(z<0.4 && this.v<0.8){ this.a*=0.4; if(this.v<0) this.v=0; }
+    this.t=t; this.local=local; this.n++;
+    return true;
+  }
+  now(local){
+    if(this.t==null) return {v:0,a:0,stale:true,age:99};
+    const age=Math.max(0,local-this.local), ad=Math.min(age,3)+this.lag, tau=3, k=Math.exp(-ad/tau);
+    let a=this.a*k, v=this.v+this.a*tau*(1-k);
+    if(age>3){ a=0; }
+    if(v<0) v=0;
+    if(v<0.45 && Math.abs(a)<0.35){ v=0; a=0; }
+    return {v,a,stale:age>3,age};
+  }
+  // what the engine follows each frame: the estimate, with each GPS correction blended in over ~0.3 s
+  follow(local){
+    const e=this.now(local), dt=this.fl? clamp(local-this.fl,0,0.1) : 0; this.fl=local;
+    if(this.fv==null){ this.fv=e.v; this.fa=e.a; }
+    this.fv += e.a*dt + (e.v-this.fv)*Math.min(1,dt/0.3);
+    this.fa += (e.a-this.fa)*Math.min(1,dt/0.15);
+    if(this.fv<0) this.fv=0;
+    if(e.v===0 && this.fv<0.5){ this.fv=0; this.fa=0; }
+    return {v:this.fv, a:this.fa, stale:e.stale, age:e.age};
+  }
+}
 
 class Car {
   constructor(sp){
@@ -454,12 +524,20 @@ class Car {
     }
   }
   gpsPedal(inp){
-    const sp=this.sp, v=this.v, g=Math.max(1,this.gear);
-    if(inp.ga < -0.5) return 0;
-    const Fres=0.5*1.2*sp.cda*v*v + (v>0.3?sp.crr*sp.mass*9.81:0);
-    const Freq=sp.mass*inp.ga + Fres;
-    const Fmax=this.tmax(Math.max(this.rpm,1500))*this.ratio[g]*sp.eta/sp.rw;
-    return clamp(Freq/Fmax*1.15, 0, 1);
+    // how hard is the driver pressing? The force this car would need for the measured acceleration,
+    // over the force it can make right now in this gear. Below coasting decel the pedal is up.
+    const sp=this.sp, m=sp.mass, a=inp.ga||0, v=Math.max(this.v, inp.gv||0);
+    const Fres=0.5*1.2*sp.cda*v*v + (v>0.3?sp.crr*m*9.81:0);
+    const coast=-Fres/m-0.15;
+    if(a<coast-0.25 || (v<0.5 && a<0.15)) return 0;
+    let Fmax;
+    if(this.ev) Fmax=Math.min(this.tmax(Math.max(this.rpm,1))*this.ratio[1]*sp.eta/sp.rw, sp.grip*m*9.81);
+    else {
+      const g=Math.max(1,this.gear), r=Math.max(this.rpm, sp.idle*1.5);
+      const bm = sp.turbo ? sp.turbo.na+(1-sp.turbo.na)*Math.max(this.boost,0.6) : 1;
+      Fmax=Math.min(this.tmax(r)*bm*this.ratio[g]*sp.eta/sp.rw, sp.grip*m*9.81);
+    }
+    return Math.pow(clamp((m*a+Fres)/Math.max(Fmax,1),0,1),0.8);
   }
   timer(dt, ped, brk){
     if(this.v<0.3 && (ped<0.2 || brk>0.1)){ this.tArm=true; this.tRun=null; }
@@ -484,7 +562,7 @@ class Car {
     if(on && ped<0.05 && v>1) T = -0.16*m*9.81*sp.rw/(ratio*sp.eta)*clamp(v/5,0,1);
     let Fdrive=Math.min(T*ratio*sp.eta/sp.rw, sp.grip*m*9.81);
     const Fres=0.5*1.2*sp.cda*v*v + (v>0.05? sp.crr*m*9.81 : 0);
-    if(gps) this.v += ((inp.gv||0)-this.v)*Math.min(1,dt*5);
+    if(gps) this.v += ((inp.gv||0)-this.v)*Math.min(1,dt*9);
     else {
       this.v += (Fdrive-Fres)/(m+sp.Ie*(ratio/sp.rw)**2)*dt;
       if(brk>0 && this.v>0) this.v=Math.max(0,this.v-brk*9.81*(sp.brake||1.1)*dt);
@@ -606,7 +684,7 @@ class Car {
     Fdrive = Math.min(Fdrive, sp.grip*m*9.81);
 
     if(gps){
-      this.v += ((inp.gv||0)-this.v)*Math.min(1,dt*5);
+      this.v += ((inp.gv||0)-this.v)*Math.min(1,dt*9);
     } else {
       this.v += (Fdrive-Fres)/meff*dt;
       if(brk>0 && this.v>0) this.v=Math.max(0,this.v-brk*9.81*(sp.brake||1.1)*dt);
@@ -673,7 +751,8 @@ class Voice {
     this.SH=SH;
     this.N=2048; this.dHA=new Float32Array(2048); this.dHB=new Float32Array(2048); this.dMA=new Float32Array(2048); this.dMB=new Float32Array(2048); this.wi=0;
     this.kH=1-Math.exp(-2*Math.PI*3200/fs); this.kM=1-Math.exp(-2*Math.PI*2300/fs); this.kRd=1-Math.exp(-2*Math.PI*320/fs);
-    ['hpL','hpR','lsL','lsR','pkL','pkR','lpL','lpR','bpI','bpT','bpB','eR1','eR2','eWL','eWR','eW2L','eW2R','eA','eT'].forEach(k=>this[k]=new BQ());
+    ['hpL','hpR','lsL','lsR','pkL','pkR','lpL','lpR','bpI','bpT','bpB','eR1','eR2','eWL','eWR','eW2L','eW2R','eA','eT','sA','sB','sH','sP','eRs'].forEach(k=>this[k]=new BQ());
+    this.bass=1;
     this.setCar(CARS[0]);
   }
   rnd(){ let x=this.seed|0; x^=x<<13; x^=x>>>17; x^=x<<5; this.seed=x>>>0; return this.seed/4294967296; }
@@ -685,7 +764,7 @@ class Voice {
     [this.dHA,this.dHB,this.dMA,this.dMB].forEach(d=>d.fill(0));
     this.lhA=this.lhB=this.lmA=this.lmB=0;
     this.loadS=0; this.flap=0.3; this.tick=0; this.pw2=0; this.whPh=0; this.stPh=0; this.stLp=0; this.envP=0; this.pn=0;
-    this.tPh=0; this.scPh=0; this.rd=0; this.vt=0;
+    this.tPh=0; this.scPh=0; this.rd=0; this.vt=0; this.oPh=0; this.hPh=0;
     this.mP1=[0,0,0]; this.pedS=0; this.gP=0; this.sw=0; this.kT=9; this.offT=1; this.roll=0; this.fNow=0; this.mP2=[0,0,0]; this.mPS=[0,0,0]; this.iP1=0; this.iP2=0; this.iP3=0; this.aP=0; this.gust=0; this.rough=0;
     this.bpB.set(2,2300,0.8,0,this.fs);
     if(this.ev) return;
@@ -770,7 +849,7 @@ class Voice {
     this.eR1.set(2,140,0.6,0,fs); this.eR2.set(2,520+v*4,0.9,0,fs);
     this.eWL.set(1,380,0.7,0,fs); this.eWR.copy(this.eWL);
     this.eW2L.set(0,cabin?1300:2400,0.7,0,fs); this.eW2R.copy(this.eW2L);
-    this.eA.set(2,380+v*45,5,0,fs);
+    this.eA.set(2,380+v*45,5,0,fs); this.eRs.set(0,60,0.8,0,fs);
     this.lpL.set(0,cabin?5200:9000,0.7,0,fs); this.lpR.copy(this.lpL);
     this.hpL.set(1,90,0.7,0,fs);
     const mesh=e.mesh, det=e.det, nm=mesh.length, norm=1/Math.sqrt(nm), OUT=0.5*(this.s.gain||1), TAU=2*Math.PI;
@@ -800,7 +879,7 @@ class Voice {
         }
         x = this.hpL.run(x)*a;
       }
-      const road = (this.eR1.run(w1)*1.4 + this.eR2.run(w1)*0.45)*roadA;
+      const road = (this.eR1.run(w1)*1.4 + this.eR2.run(w1)*0.45 + this.eRs.run(w3)*3.2*this.bass*(cabin?1:0.5))*roadA;
       const wl = this.eW2L.run(this.eWL.run(w2))*windA, wr = this.eW2R.run(this.eWR.run(w3))*windA;
       let av=0;
       if(avA>1e-5){ this.aP+=(310+v*22)/fs; this.aP-=Math.floor(this.aP); av=this.eA.run(w3)*avA*2.5 + Math.sin(TAU*this.aP)*avA*0.35; }
@@ -839,12 +918,17 @@ class Voice {
 
     const rn=r1/LIM, lo=s.low, lpC=s.lpC, lpO=s.lpO;
     if(cabin){
-      this.hpL.set(1,35,0.7,0,fs); this.lsL.set(3,lo[0]*0.85,0.8,lo[1]+3,fs); this.pkL.set(3,s.rasp,1.2,-1+2*vt,fs); this.lpL.set(0,lpC[0]+lpC[1]*flap+600*rn,0.7,0,fs);
+      this.hpL.set(1,35,0.7,0,fs); this.lsL.set(3,lo[0]*0.85,0.8,lo[1]+3,fs); this.pkL.set(3,s.rasp,1.2,-3+2*vt,fs); this.lpL.set(0,lpC[0]+lpC[1]*flap+600*rn,0.7,0,fs);
     } else {
       this.hpL.set(1,28,0.7,0,fs); this.lsL.set(3,lo[0],0.8,lo[1],fs); this.pkL.set(3,s.rasp,1.0,1+5*flap*load+3*vt,fs); this.lpL.set(0,lpO[0]+lpO[1]*flap,0.7,0,fs);
     }
     this.hpR.copy(this.hpL); this.lsR.copy(this.lsL); this.pkR.copy(this.pkL); this.lpR.copy(this.lpL);
     this.bpI.set(2,320+rn*950,1.6,0,fs);
+    // the low end for the subwoofers: the combustion pulses themselves, low-passed, with the cabin's boom resonance
+    this.sA.set(0,150,0.7,0,fs); this.sB.set(0,150,0.7,0,fs); this.sH.set(1,24,0.7,0,fs); this.sP.set(3,cabin?55:70,1.1,cabin?6:2,fs);
+    const subAmt=(s.sub||1)*this.bass*(cabin?1.5:0.9)*(0.6+0.4*load);
+    // under load the cabin thumps at the crank's own low orders: once per revolution and once per cycle
+    const ordAmt=(s.ord||1)*this.bass*(cabin?0.32:0.18)*(0.25+0.75*Math.pow(load,0.8));
     const exG = cabin ? 0.85*(0.6+0.4*flap) : 1.0*(0.5+0.5*flap);
     const inG = cabin ? 0.75 : 0.22;
     const intakeAmt = s.intake*(1+1.2*vt)*Math.pow(load,1.2)*Math.pow(Math.max(rn,0),0.7) + (r1>300?0.025:0);
@@ -884,6 +968,11 @@ class Voice {
       this.wi=(wi+1)&M;
 
       let xl=mix*mA+(1-mix)*mB, xr=(1-mix)*mA+mix*mB;
+      this.oPh+=rpm/60/fs; if(this.oPh>1) this.oPh-=1;
+      this.hPh+=rpm/120/fs; if(this.hPh>1) this.hPh-=1;
+      const sOn=strength>0.1?strength:0;
+      const ords=(Math.sin(2*Math.PI*this.oPh)*0.6 + Math.sin(2*Math.PI*this.hPh)*0.5)*sOn*ordAmt*(0.85+0.3*(this.envP-0.5));
+      const subO=this.sP.run(this.sH.run(this.sB.run(this.sA.run((ea+eb)*subAmt + ords))));
 
       if(this.pops.length){
         let pl=0, pr=0;
@@ -916,7 +1005,7 @@ class Voice {
         extra+=0.09*this.stLp*(0.55+0.45*Math.cos(this.acc/this.gap*2*Math.PI)); }
 
       const common=intake*inG+tick+extra;
-      L[o+j]=this.soft((xl*exG+common)*OUT); R[o+j]=this.soft((xr*exG+common)*OUT);
+      L[o+j]=this.soft((xl*exG+common+subO)*OUT); R[o+j]=this.soft((xr*exG+common+subO)*OUT);
     }
   }
 }
@@ -934,7 +1023,7 @@ class Core {
       case 'car': { const sp=CARS.find(x=>x.id===m.id)||CARS[0]; if(sp===c.sp) break;
         const was=c.state!=='off', nc=new Car(sp); nc.mode=c.mode; nc.exh=c.exh;
         this.car=nc; this.syn.setCar(sp); if(was) nc.start(); break; }
-      case 'cfg': if(m.mode) c.setMode(m.mode); if(m.exh!=null) c.exh=m.exh; if(m.listen) this.syn.listen=m.listen; break;
+      case 'cfg': if(m.mode) c.setMode(m.mode); if(m.exh!=null) c.exh=m.exh; if(m.listen) this.syn.listen=m.listen; if(m.bass!=null) this.syn.bass=m.bass; break;
     }
   }
   render(L,R,n){
@@ -959,7 +1048,7 @@ const store = {
 const usDefault = /^en-(US|GB|LR|MM)/i.test(navigator.language||'');
 const cfg = {
   car: store.get('car','r8'), mode: store.get('mode','manual'), listen: store.get('listen','cabin'),
-  units: store.get('units', usDefault?'mph':'kmh'), vol: store.get('vol',0.8), src:'sim'
+  units: store.get('units', usDefault?'mph':'kmh'), vol: store.get('vol',0.8), bass: store.get('bass',1), src:'sim'
 };
 let CUR = CARS.find(c=>c.id===cfg.car) || CARS[0];
 let S = {rpm:0,v:0,gear:1,mode:cfg.mode,state:'off',ped:0,load:0,kw:0,kws:0,nm:0,boost:0,tRun:null,r60:null,r100:null,flash:'',pops:0,lim:false,launch:false,flap:0};
@@ -992,7 +1081,7 @@ async function initAudio(){
   ctx.resume && ctx.resume();
   const master=ctx.createGain(); master.gain.value=cfg.vol;
   const comp=ctx.createDynamicsCompressor();
-  comp.threshold.value=-8; comp.knee.value=8; comp.ratio.value=6; comp.attack.value=0.003; comp.release.value=0.15;
+  comp.threshold.value=-14; comp.knee.value=12; comp.ratio.value=3; comp.attack.value=0.012; comp.release.value=0.25;
   const dry=ctx.createGain(), wet=ctx.createGain(), conv=ctx.createConvolver();
   conv.buffer=makeIR(ctx,0.6);
   dry.connect(master); conv.connect(wet); wet.connect(master); master.connect(comp); comp.connect(ctx.destination);
@@ -1015,7 +1104,7 @@ async function initAudio(){
   audio={ctx,master,wet,node,send,kind};
   applyListen();
   send({t:'car', id:CUR.id});
-  send({t:'cfg', mode:cfg.mode, exh:exhLvs(CUR)[exhIdx(CUR)], listen:cfg.listen});
+  send({t:'cfg', mode:cfg.mode, exh:exhLvs(CUR)[exhIdx(CUR)], listen:cfg.listen, bass:cfg.bass});
   claimMediaKeys();
   try{ if(navigator.wakeLock) navigator.wakeLock.request('screen').catch(()=>{}); }catch(e){}
   return audio;
@@ -1106,25 +1195,31 @@ function readPad(){
 }
 
 /* ---------- GPS ---------- */
-const gps={id:null,v:0,a:0,t:0,last:null,lastTs:0,fixes:0};
-function hav(a,b){ const R=6371000, toR=Math.PI/180, dLa=(b.latitude-a.latitude)*toR, dLo=(b.longitude-a.longitude)*toR;
-  const x=Math.sin(dLa/2)**2+Math.cos(a.latitude*toR)*Math.cos(b.latitude*toR)*Math.sin(dLo/2)**2; return 2*R*Math.asin(Math.sqrt(x)); }
+const track=new GpsTrack(); let gpsId=null, lostShown=false;
 function startGPS(){
   if(!navigator.geolocation){ note('This browser gives no location access, so GPS drive is unavailable.'); return false; }
+  track.reset(); lostShown=false;
   note('Waiting for a GPS fix…');
-  gps.id=navigator.geolocation.watchPosition(p=>{
-    const now=performance.now()/1000, c=p.coords; let sp=c.speed;
-    if(sp==null || isNaN(sp)){ sp = gps.last && p.timestamp>gps.lastTs ? hav(gps.last,c)/((p.timestamp-gps.lastTs)/1000) : 0; }
-    if(gps.t){ const dt=now-gps.t; if(dt>0.15){ const aRaw=clamp((sp-gps.v)/dt,-12,12); gps.a=gps.a*0.35+aRaw*0.65; } }
-    gps.v=sp; gps.t=now; gps.last={latitude:c.latitude,longitude:c.longitude}; gps.lastTs=p.timestamp; gps.fixes++;
-    note(`GPS locked · accuracy ${Math.round(c.accuracy)} m · ${gps.fixes} fixes`);
+  gpsId=navigator.geolocation.watchPosition(p=>{
+    const c=p.coords;
+    track.fix(p.timestamp/1000, performance.now()/1000, c.speed, c.accuracy, c.latitude, c.longitude);
+    lostShown=false;
   }, err=>{
     note(err.code===1 ? 'Location permission was denied. Allow it in the browser to use GPS drive.' : 'No GPS signal yet: '+err.message);
     if(err.code===1) setSrc('sim');
   }, {enableHighAccuracy:true, maximumAge:0, timeout:15000});
+  if(cfg.mode!=='auto' && CUR.box!=='ev'){ setMode('auto'); }
   return true;
 }
-function stopGPS(){ if(gps.id!=null) navigator.geolocation.clearWatch(gps.id); gps.id=null; }
+function stopGPS(){ if(gpsId!=null) navigator.geolocation.clearWatch(gpsId); gpsId=null; }
+let gpsNoteT=0;
+function gpsStatus(now, est){
+  if(now-gpsNoteT<250) return; gpsNoteT=now;
+  if(!track.n) return;
+  if(est.stale){ if(!lostShown){ note('GPS signal lost. The engine settles until it comes back.'); lostShown=true; } return; }
+  const g=(est.a/9.81).toFixed(2);
+  note(`GPS <b>${track.rate.toFixed(1)} Hz</b> · ±${Math.round(track.acc||0)} m · <b>${g} g</b> · throttle ${Math.round(S.ped*100)}%`);
+}
 
 /* ---------- settings UI ---------- */
 function pressSeg(id, val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===String(val)))); }
@@ -1144,6 +1239,8 @@ document.querySelectorAll('#lisSeg button').forEach(b=>b.onclick=()=>setListen(b
 document.querySelectorAll('#srcSeg button').forEach(b=>b.onclick=()=>setSrc(b.dataset.v));
 $('#units').onclick=()=>setUnits(cfg.units==='mph'?'kmh':'mph');
 const vol=$('#vol'); vol.value=cfg.vol;
+const bassEl=$('#bass'); bassEl.value=cfg.bass; $('#bassV').textContent=Math.round(cfg.bass*100)+'%';
+bassEl.oninput=()=>{ cfg.bass=+bassEl.value; store.set('bass',cfg.bass); $('#bassV').textContent=Math.round(cfg.bass*100)+'%'; send({t:'cfg',bass:cfg.bass}); };
 vol.oninput=()=>{ cfg.vol=+vol.value; store.set('vol',cfg.vol); if(audio) audio.master.gain.setTargetAtTime(cfg.vol,audio.ctx.currentTime,0.03); };
 pressSeg('modeSeg',cfg.mode); pressSeg('lisSeg',cfg.listen); setUnits(cfg.units);
 document.addEventListener('mouseup',e=>{ const b=e.target.closest&&e.target.closest('button'); if(b) b.blur(); });
@@ -1500,7 +1597,7 @@ function frame(now){
   let brk = (held.brake||held.pBrake) ? 1 : 0;
   if(pad){ thr=Math.max(thr,pad.thr); brk=Math.max(brk,pad.brk); }
   let gv=0, ga=0;
-  if(cfg.src==='gps' && gps.t){ const age=Math.min(1.5,now/1000-gps.t); gv=Math.max(0,gps.v+gps.a*age*0.85); ga=gps.a; }
+  if(cfg.src==='gps'){ const est=track.follow(now/1000); gv=est.v; ga=est.a; gpsStatus(now, est); }
   send({t:'in', thr, brk, src:cfg.src, gv, ga});
   $('#pedGas').classList.toggle('down', thr>0); $('#pedBrake').classList.toggle('down', brk>0);
 
