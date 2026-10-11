@@ -531,7 +531,7 @@ class Car {
     const coast=-Fres/m-0.15;
     if(v<0.5 && a<0.15) return 0;
     if(a<coast-0.3) return 0;              // clearly lifting off or braking
-    const cruise = v>2.5 ? 0.22 : 0;      // holding speed still takes throttle
+    const cruise = (!this.ev && v>2.5) ? 0.2 : 0;   // an engine needs throttle to hold speed; an EV motor at cruise is near silent
     let Fmax;
     if(this.ev) Fmax=Math.min(this.tmax(Math.max(this.rpm,1))*this.ratio[1]*sp.eta/sp.rw, sp.grip*m*9.81);
     else {
@@ -542,7 +542,8 @@ class Car {
     // everyday driving is gentle next to what the car can do: half its pull already counts as flat out.
     // Small wobbles in the estimate while holding speed read as steady cruise, not as throttle stabs.
     const aEff = Math.abs(a)<0.35 ? 0 : a;
-    const need=(m*Math.max(aEff,0)+Fres)/Math.max(Fmax,1);
+    if(this.ev && aEff<=0) return 0;
+    const need=(m*Math.max(aEff,0)+(this.ev?0:Fres))/Math.max(Fmax,1);
     return clamp(cruise+(1-cruise)*Math.pow(clamp(need/0.5,0,1),0.75),0,1);
   }
   timer(dt, ped, brk){
@@ -711,9 +712,24 @@ class Car {
     // gearbox brain
     if(running && this.locked && !this.shift && this.gear>0){
       const G=this.gear, L=L0;
-      if(this.mode==='auto'){
-        const sp2=this.exh===2, lo=L*(sp2?0.37:0.265), hi=L*(sp2?0.983:0.966);
-        const up=lo+Math.pow(ped,1.2)*(hi-lo);
+      if(this.mode==='auto' && gps && this.exh!==2){
+        // GPS drive: settle into a tall gear once speed holds steady, drop gears as soon as the car accelerates
+        const a=inp.ga||0, L=L0;
+        this.cruiseT = Math.abs(a)<0.35 ? (this.cruiseT||0)+dt : 0;
+        this.accT = a>0.6 ? (this.accT||0)+dt : 0;            // acceleration has to last a moment, so GPS wobble can't hunt gears
+        const accel = this.accT>0.35, gap=this.t-this.lastShift;
+        const lug=Math.max(sp.idle*1.5, 1300);
+        const upAt=L*Math.min(0.95,0.32+0.6*ped*ped);         // gentle pulls shift early, flooring it revs out
+        const downAt=L*(0.18+0.3*Math.pow(ped,1.5));
+        if(this.rpm>upAt && G<this.ng && gap>0.45) this.beginShift(G+1);
+        else if(accel && G>1 && gap>1.0 && this.rpm<downAt && this.wheelRpm(G-1)<upAt*0.82) this.beginShift(G-1);
+        else if(this.cruiseT>1.5 && G<this.ng && gap>0.9 && this.wheelRpm(G+1)>lug) this.beginShift(G+1);
+        else if(G>1 && gap>0.6 && this.rpm<sp.idle*1.15) this.beginShift(G-1);
+      } else if(this.mode==='auto'){
+        // in GPS drive, everyday throttle short-shifts so the engine stays low and deep; flooring it still revs out
+        const sp2=this.exh===2, relax=inp.src==='gps' && !sp2;
+        const lo=L*(sp2?0.37:relax?0.24:0.265), hi=L*(sp2?0.983:0.966);
+        const up=lo+Math.pow(ped,relax?2.2:1.2)*(hi-lo);
         if(ped<0.6) this.kickArmed=true;
         if(this.rpm>up && G<this.ng && this.t-this.lastShift>0.45) this.beginShift(G+1);
         else if(G>1 && this.t-this.lastShift>0.6){
