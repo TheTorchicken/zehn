@@ -305,7 +305,7 @@ const CARS = [
  tq:[[0,350],[1000,420],[2000,480],[3000,520],[4000,555],[4600,569],[5500,560],[6500,520],[7000,490],[7400,455],[7800,380]],
  gearTop:[0,74,111,160,205,270,415],
  order:[1,5,4,8,6,3,7,2], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 5 · 4 · 8 · 6 · 3 · 7 · 2 · cross-plane crank',
- snd:{ord:2.2, sub:1.35, hd:[1.2,1.4], md:[6.5,7.4], rM:-0.5, W:110, low:[85,7], rasp:1700, lpO:[2800,7000], lpC:[1300,2000], drive:1.3, nz:0.25, intake:0.35, whine:0.005, mix:0.68},
+ snd:{ord:1.7, sub:1.35, hd:[1.2,1.4], md:[6.5,7.4], rM:-0.5, W:110, low:[85,7], rasp:1700, lpO:[2800,7000], lpC:[1300,2000], drive:1.3, nz:0.25, intake:0.35, whine:0.005, mix:0.68},
  dash:{kind:'dial', face:'#0d0e10', bezel:'#a7adb3', num:'#ececec', needle:'#e33a1f', red:'#e33a1f', hub:'#202226', label:'ENGINE RPM'}},
 {id:'f150', name:'Ford F-150 (1995)', sub:'5.8 L V8 · 4-speed automatic · 4,800 rpm', body:'truck', paint:'#2f4a3a', rim:'steel', cal:null,
  mass:2150, cda:1.45, top:161, vlim:161, crr:0.016, rw:0.366, eta:0.85, Ie:0.45, idle:650, limit:4800, launch:2200, grip:0.75, box:'auto', stall:2300,
@@ -313,7 +313,7 @@ const CARS = [
  gearTop:[0,69,121,187,263],
  order:[1,3,7,2,6,5,4,8], banks:[[1,2,3,4],[5,6,7,8]], fo:'Firing order 1 · 3 · 7 · 2 · 6 · 5 · 4 · 8 · cross-plane crank',
  exh:['Stock','Borla'], exhLv:[0,2],
- snd:{ord:1.9, sub:1.15, hd:[1.4,1.6], md:[8,9], rM:-0.5, W:120, low:[72,7], rasp:1400, lpO:[1800,6000], lpC:[1000,1600], drive:0.9, nz:0.3, intake:0.25, whine:0.003, mix:0.5, gain:1.2},
+ snd:{ord:1.45, sub:1.15, hd:[1.4,1.6], md:[8,9], rM:-0.5, W:120, low:[72,7], rasp:1400, lpO:[1800,6000], lpC:[1000,1600], drive:0.9, nz:0.3, intake:0.25, whine:0.003, mix:0.5, gain:1.2},
  dash:{kind:'sweep', face:'#0f1011', bezel:'#2b2c2e', num:'#f1f1f1', needle:'#ff7a1a', red:'#e2261a', label:'RPM × 1000'}},
 {id:'s2000', name:'Honda S2000', sub:'2.0 L four-cylinder · 6-speed manual · 8,900 rpm', body:'roadster', paint:'#b9bcbf', rim:'five', cal:'red',
  mass:1300, cda:0.705, top:241, crr:0.013, rw:0.315, eta:0.9, Ie:0.12, idle:900, limit:9000, launch:5500, grip:0.95, box:'manual',
@@ -349,7 +349,7 @@ const CARS = [
  tq:[[0,500],[1000,600],[2000,720],[3000,800],[4000,860],[4800,889],[5500,870],[6000,840],[6200,820],[6600,700]],
  gearTop:[0,69,104,154,195,252,325,387,485],
  order:[1,8,4,3,6,5,7,2], banks:[[1,3,5,7],[2,4,6,8]], fo:'Firing order 1 · 8 · 4 · 3 · 6 · 5 · 7 · 2 · cross-plane, 2.4 L supercharger',
- snd:{ord:2.0, sub:1.45, hd:[1.1,1.3], md:[6.2,7.0], rM:-0.5, W:110, low:[80,7], rasp:1600, lpO:[2600,7000], lpC:[1300,2100], drive:1.4, nz:0.3, intake:0.3, whine:0.004, mix:0.66, sc:{mult:14, amt:0.07}, psi:11.6},
+ snd:{ord:1.55, sub:1.45, hd:[1.1,1.3], md:[6.2,7.0], rM:-0.5, W:110, low:[80,7], rasp:1600, lpO:[2600,7000], lpC:[1300,2100], drive:1.4, nz:0.3, intake:0.3, whine:0.004, mix:0.66, sc:{mult:14, amt:0.07}, psi:11.6},
  dash:{kind:'dial', face:'#0a0a0a', bezel:'#3a0f0a', num:'#f0f0f0', needle:'#ff3b10', red:'#ff3b10', hub:'#1a1a1a', glow:'#ff3b10', label:'RPM × 1000'}},
 {id:'sti', name:'Subaru WRX STI', sub:'2.5 L turbo boxer four · 6-speed manual · 6,700 rpm', body:'sedan', paint:'#1d4f9c', rim:'multi', cal:'red', extras:['wingSti','scoop'],
  mass:1600, cda:0.72, top:256, crr:0.014, rw:0.327, eta:0.88, Ie:0.2, idle:800, limit:6700, launch:4500, grip:1.05, box:'manual',
@@ -774,7 +774,7 @@ class Voice {
     this.SH=SH;
     this.N=2048; this.dHA=new Float32Array(2048); this.dHB=new Float32Array(2048); this.dMA=new Float32Array(2048); this.dMB=new Float32Array(2048); this.wi=0;
     this.kH=1-Math.exp(-2*Math.PI*3200/fs); this.kM=1-Math.exp(-2*Math.PI*2300/fs); this.kRd=1-Math.exp(-2*Math.PI*320/fs);
-    ['hpL','hpR','lsL','lsR','pkL','pkR','lpL','lpR','bpI','bpT','bpB','eR1','eR2','eWL','eWR','eW2L','eW2R','eA','eT','sA','sB','sH','sP','eRs'].forEach(k=>this[k]=new BQ());
+    ['hpL','hpR','lsL','lsR','pkL','pkR','lpL','lpR','bpI','bpT','bpB','eR1','eR2','eWL','eWR','eW2L','eW2R','eA','eT','sA','sB','sH','sP','eRs','rB','rL'].forEach(k=>this[k]=new BQ());
     this.bass=1;
     this.setCar(CARS[0]);
   }
@@ -948,21 +948,22 @@ class Voice {
 
     const rn=r1/LIM, lo=s.low, lpC=s.lpC, lpO=s.lpO;
     if(cabin){
-      this.hpL.set(1,35,0.7,0,fs); this.lsL.set(3,lo[0]*0.85,0.8,lo[1]+3,fs); this.pkL.set(3,s.rasp,1.2,-3+2*vt,fs); this.lpL.set(0,lpC[0]+lpC[1]*flap+600*rn,0.7,0,fs);
+      this.hpL.set(1,35,0.7,0,fs); this.lsL.set(3,lo[0]*0.85,0.8,lo[1]+3,fs); this.pkL.set(3,s.rasp,1.2,-5-3*rn+2*vt,fs); this.lpL.set(0,(lpC[0]+lpC[1]*flap)*(0.62-0.2*rn)+250,0.6,0,fs);
     } else {
       this.hpL.set(1,28,0.7,0,fs); this.lsL.set(3,lo[0],0.8,lo[1],fs); this.pkL.set(3,s.rasp,1.0,1+5*flap*load+3*vt,fs); this.lpL.set(0,lpO[0]+lpO[1]*flap,0.7,0,fs);
     }
     this.hpR.copy(this.hpL); this.lsR.copy(this.lsL); this.pkR.copy(this.pkL); this.lpR.copy(this.lpL);
     this.bpI.set(2,320+rn*950,1.6,0,fs);
     // the low end for the subwoofers: the combustion pulses themselves, low-passed, with the cabin's boom resonance
-    this.sA.set(0,150,0.7,0,fs); this.sB.set(0,150,0.7,0,fs); this.sH.set(1,24,0.7,0,fs); this.sP.set(3,cabin?55:70,1.1,cabin?6:2,fs);
+    this.sA.set(0,150,0.7,0,fs); this.sB.set(0,150,0.7,0,fs); this.sH.set(1,24,0.7,0,fs); this.rB.set(2,62+20*rn,0.9,0,fs); this.rL.set(0,115,0.7,0,fs); this.sP.set(3,cabin?55:70,1.1,cabin?6:2,fs);
     const subAmt=(s.sub||1)*this.bass*(cabin?1.5:0.9)*(0.6+0.4*load);
     // under load the cabin thumps at the crank's own low orders: once per revolution and once per cycle
-    const ordAmt=(s.ord||1)*this.bass*(cabin?0.32:0.18)*(0.25+0.75*Math.pow(load,0.8));
+    const ordAmt=(s.ord||1)*this.bass*(cabin?0.32:0.18)*(0.25+0.75*Math.pow(load,0.8))*(0.8+1.6*rn);
+    const roarAmt=(s.ord||1)*this.bass*(cabin?0.5:0.28)*Math.pow(load,0.9)*(0.3+1.8*rn);
     { const fr=Math.max(r1,1)/60; let tot=0;
       for(const o of this.orders){ const f=o.k*fr, d=Math.log2(Math.max(f,1)/62)/0.6; const g=f<28?0:o.w*Math.exp(-0.5*d*d); o.g+= (g-o.g)*Math.min(1,dtb*20); tot+=o.g*o.g; }
       this.oNorm=1/Math.max(0.55,Math.sqrt(tot)); }
-    const exG = cabin ? 0.85*(0.6+0.4*flap) : 1.0*(0.5+0.5*flap);
+    const exG = cabin ? 0.85*(0.6+0.4*flap)*(1-0.5*rn) : 1.0*(0.5+0.5*flap)*(1-0.2*rn);
     const inG = cabin ? 0.75 : 0.22;
     const intakeAmt = s.intake*(1+1.2*vt)*Math.pow(load,1.2)*Math.pow(Math.max(rn,0),0.7) + (r1>300?0.025:0);
     const drive = s.drive + 1.4*load + 0.6*flap + 0.5*vt;
@@ -976,7 +977,7 @@ class Voice {
     const scAmt = s.sc ? s.sc.amt*(0.25+0.75*load)*Math.min(1,rn*1.6) : 0, scMult = s.sc ? s.sc.mult : 0;
     const roadAmt=(cabin?0.07:0.035)*Math.pow(Math.min(1,car.v/45),1.5);
     const cranking=car.state==='crank';
-    const mix=s.mix!=null?s.mix:0.62, OUT=0.34*(s.gain||1);   // headroom so the sub layer never clips
+    const mix=s.mix!=null?s.mix:0.62, OUT=0.25*(s.gain||1);   // headroom so the sub layer never clips
 
     for(let j=0;j<n;j++){
       const fj=j/n, rpm=r0+(r1-r0)*fj; this.rpmNow=rpm;
@@ -1007,7 +1008,8 @@ class Voice {
       let ladder=0; const hp=2*Math.PI*this.hPh;
       for(let q=0;q<this.orders.length;q++){ const o=this.orders[q]; if(o.g>0.01) ladder+=Math.sin(hp*2*o.k)*o.g; }
       const ords=ladder*this.oNorm*1.1*sOn*ordAmt*(0.85+0.3*(this.envP-0.5));
-      const subO=this.sP.run(this.sH.run(this.sB.run(this.sA.run((ea+eb)*subAmt + ords))));
+      const roar=this.rL.run(this.rB.run(w2))*roarAmt*(0.45+0.9*Math.min(1,this.envP*1.4))*sOn*3.2;
+      const subO=this.sP.run(this.sH.run(this.sB.run(this.sA.run((ea+eb)*subAmt + ords + roar))));
 
       if(this.pops.length){
         let pl=0, pr=0;
